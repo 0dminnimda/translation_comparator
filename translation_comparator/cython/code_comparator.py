@@ -2,8 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import re
+from difflib import restore
 from pathlib import Path
 from re import Match
+from typing import Iterable, List
 
 from ..typedefs import DIFF, DIFF_FUNC, DIFF_ITER
 from . import settings
@@ -18,6 +20,10 @@ def make_diff(func: DIFF_FUNC, iterable: DIFF_ITER) -> DIFF:
     return [
         list(func(a.split("\n"), b.split("\n")))
         for a, b in iterable]
+
+
+def write_restored_diff(path: Path, lines: Iterable[str]) -> None:
+    build_out_path(path).write_text("\n".join(lines))
 
 
 def repl(match: Match) -> str:
@@ -36,6 +42,16 @@ def equate_similar_lines(string: str) -> str:
     return pattern.sub(repl, string)
 
 
+def build_diff_path(path1: Path, path2: Path) -> Path:
+    return settings.diff_dir.joinpath(
+        path1.stem + "+" + path2.stem).with_suffix(settings.diff_ext)
+
+
+def build_out_path(path: Path) -> Path:
+    return settings.diff_dir.joinpath(
+        path.name).with_suffix(settings.out_ext)
+
+
 def compare_and_save_two_files_by_path(path1: Path, path2: Path) -> None:
     code1, code2 = get_code_from_two_files_by_path(path1, path2)
 
@@ -43,3 +59,13 @@ def compare_and_save_two_files_by_path(path1: Path, path2: Path) -> None:
 
     compare_str = equate_similar_lines(diff_to_str(compare))
 
+    if settings.save_as_diff:
+        build_diff_path(path1, path2).write_text(compare_str)
+    else:
+        split = compare_str.split("\n")
+        write_restored_diff(path1, restore(split, 1))
+        write_restored_diff(path2, restore(split, 2))
+
+
+def compare_and_save_two_files(file1: str, file2: str) -> None:
+    return compare_and_save_two_files_by_path(Path(file1), Path(file2))
