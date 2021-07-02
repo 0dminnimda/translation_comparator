@@ -27,3 +27,10 @@ def get_code_from_two_files_by_path(
         get_code_from_soup(get_soup_from_html(path1)),
         get_code_from_soup(get_soup_from_html(path2)))
 
+
+def get_code_from_two_files(
+    file1: str, file2: str
+) -> Tuple[List[str], List[str]]:
+
+    return get_code_from_two_files_by_path(
+        Path(file1), Path(file2))
