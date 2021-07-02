@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import re
 from pathlib import Path
 from typing import List, Tuple
 
@@ -15,6 +16,12 @@ def get_code_from_soup(soup: BeautifulSoup) -> List[str]:
 
 def get_soup_from_html(path: Path) -> BeautifulSoup:
     html = path.with_suffix(".html").read_text()
+
+    html = html.replace(path.stem, "{fname}")
+    html = html.replace(path.stem[:-1], "{fname}")
+    html = re.sub(r"\d+{fname}", "{num_fname}", html)
+    html = html.replace("{fname}" + "_" + path.suffix[1:],
+                        "{fname_suf}")
 
     return BeautifulSoup(html, "lxml")
 
