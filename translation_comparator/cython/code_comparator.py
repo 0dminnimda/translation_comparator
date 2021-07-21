@@ -7,6 +7,7 @@ from pathlib import Path
 from re import Match
 from typing import Iterable, List
 
+from ..path_helpers import change_same_paths_if_needed
 from ..typedefs import DIFF, DIFF_FUNC, DIFF_ITER
 from . import settings
 from .annotated_html_parser import get_code_from_two_files_by_path
@@ -55,19 +56,17 @@ def build_out_path(path: Path) -> Path:
 def compare_and_save_two_files_by_path(path1: Path, path2: Path) -> None:
     code1, code2 = get_code_from_two_files_by_path(path1, path2)
 
-    compare = make_diff(settings.differ.compare, zip(code1, code2))
+    compare_result = make_diff(settings.differ.compare, zip(code1, code2))
+    comparison_str = equate_similar_lines(diff_to_str(compare_result))
 
-    compare_str = equate_similar_lines(diff_to_str(compare))
-
+    path1, path2 = change_same_paths_if_needed(path1, path2)
     if settings.save_as_diff:
-        build_diff_path(path1, path2).write_text(compare_str)
+        build_diff_path(path1, path2).write_text(comparison_str)
     else:
-        split = compare_str.split("\n")
+        split = comparison_str.split("\n")
         write_restored_diff(path1, restore(split, 1))
         write_restored_diff(path2, restore(split, 2))
 
 
-
 def compare_and_save_two_files(file1: str, file2: str) -> None:
-
     return compare_and_save_two_files_by_path(Path(file1), Path(file2))
