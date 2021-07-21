@@ -1,6 +1,6 @@
 .vscode/
 __pycache__/
 *.c
-\!examples/diff/*.c
+\!examples/*/diff/*.c
 *.html
 *.egg-info/
