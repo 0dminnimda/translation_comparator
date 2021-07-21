@@ -12,3 +12,8 @@ def build_via_suffix_change(path: Path) -> Tuple[Path, Path]:
 
 def unique_stem_via_suffix(path: Path) -> Path:
     return path.with_stem(path.stem + "_" + path.suffix[1:])
+
+
+def unique_name_via_number(path: Path) -> Tuple[Path, Path]:
+    return (path.with_name(path.name + " (0)"),
+            path.with_name(path.name + " (1)"))
