@@ -58,3 +58,34 @@ def paths_for_cython(*patterns: str) -> Iterator[Path]:
         if path.suffix in (".py", ".pyx") and path.name not in returned:
             yield path
             returned.add(path.name)
+
+
+def pairs_and_extentions_for_cython(
+    *patterns: str
+) -> Tuple[List[Tuple[Path, Path]], List[Path], List[Path]]:
+
+    pairs: List[Tuple[Path, Path]] = []
+    py_paths: List[Path] = []
+    pyx_paths: List[Path] = []
+
+    path_func = cython_settings.path_func
+    build_dir = cython_settings.build_dir
+
+    for path in paths_for_cython(*patterns):
+        path1, path2 = path_func(path)
+
+        path1 = relative_to_cwd(path1)
+        path2 = relative_to_cwd(path2)
+
+        new_path1 = with_parent(path1, cython_settings.py_dir)
+        new_path2 = with_parent(path2, cython_settings.pyx_dir)
+
+        py_paths.append(path1)
+        pyx_paths.append(path2)
+
+        pairs.append((
+            cython_settings.build_dir.joinpath(new_path1),
+            cython_settings.build_dir.joinpath(new_path2)))
+
+    return pairs, py_paths, pyx_paths
+
