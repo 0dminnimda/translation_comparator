@@ -14,3 +14,11 @@ def self_glob(path: Path) -> Iterator[Path]:
 def full_path(path: Path) -> Path:
     return path.expanduser().absolute()
 
+
+def relative_to_cwd(path: Path) -> Path:
+    return path.relative_to(Path.cwd())
+
+
+def with_parent(path: Path, directory: Path) -> Path:
+    return directory.joinpath(path.name)
+
