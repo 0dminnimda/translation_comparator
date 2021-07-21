@@ -20,6 +20,7 @@ py_dir: Path = Path("py/")
 pyx_dir: Path = Path("pyx/")
 diff_dir: Path = Path("diff/")
 
+path_func: GEN_PATH_FUNC = build_via_suffix_change
 show_func: SHOW_FUNC = show_via_cmd
 unique_stem_func: PATH_FUNC = unique_stem_via_suffix
 unique_name_func: GEN_PATH_FUNC = unique_name_via_number
