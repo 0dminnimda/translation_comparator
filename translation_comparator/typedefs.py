@@ -14,3 +14,6 @@ DIFF_FUNC = Callable[
     Iterable[str]]
 DIFF_ITER = Iterable[Iterable[str]]
 
+GEN_PATH_FUNC = Callable[[Path], Tuple[Path, Path]]
+PATH_FUNC = Callable[[Path], Path]
+
