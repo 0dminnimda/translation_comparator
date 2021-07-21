@@ -67,5 +67,7 @@ def compare_and_save_two_files_by_path(path1: Path, path2: Path) -> None:
         write_restored_diff(path2, restore(split, 2))
 
 
+
 def compare_and_save_two_files(file1: str, file2: str) -> None:
+
     return compare_and_save_two_files_by_path(Path(file1), Path(file2))
