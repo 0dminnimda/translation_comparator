@@ -21,8 +21,10 @@ settings.save_as_diff = False
 # takes in patterns, that glob will accept
 # "\\!" - excude ones that matches this, pattern order doesn't matter
 # keyword arguments will be used for cythonize
-cythonize_and_compare("*", "\\!run_cython_comparison.py",
-                      language_level=3)
+cythonize_and_compare(
+    "*", "\\!run_cython_comparison.py",
+    # or "array.*" to capture only files with stem "array"
+    language_level=3)
 
 
 # you can see result in the diff folder
