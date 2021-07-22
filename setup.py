@@ -16,6 +16,8 @@ for path in glob("requirements/*.txt"):
 with open("README.md") as file:
     long_description = file.read()
 
+github_link = "https://github.com/0dminnimda/{0}".format(__name__)
+
 setup(
     name=__name__,
     version=__version__,
@@ -24,9 +26,24 @@ setup(
     long_description_content_type="text/markdown",
     author="0dminnimda",
     author_email="0dminnimda.contact@gmail.com",
+    url=github_link,
     packages=find_packages(),
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Utilities",
+        "Typing :: Typed",
+    ],
     license="MIT",
+    project_urls={
+        "Bug tracker": github_link + "/issues",
+    },
     install_requires=requirements.pop("basic"),
     python_requires=">=3.7",
-    extras_require=requirements
+    extras_require=requirements,
 )
