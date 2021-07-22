@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from typing import List, Tuple
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, FeatureNotFound
 from bs4.element import Tag
 
 
@@ -23,7 +23,13 @@ def get_soup_from_html(path: Path) -> BeautifulSoup:
     html = html.replace("{fname}" + "_" + path.suffix[1:],
                         "{fname_suf}")
 
-    return BeautifulSoup(html, "lxml")
+    try:
+        return BeautifulSoup(html, "lxml")
+    except FeatureNotFound:
+        try:
+            return BeautifulSoup(html, "html5lib")
+        except FeatureNotFound:
+            return BeautifulSoup(html, "html.parser")
 
 
 def get_code_from_two_files_by_path(
