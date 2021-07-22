@@ -6,7 +6,7 @@ from typing import Tuple
 
 
 def build_via_suffix_change(path: Path) -> Tuple[Path, Path]:
-    "'path.py*' -> 'path.py', 'path.pyx'"
+    "'path.*' -> 'path.py', 'path.pyx'"
     return path.with_suffix(".py"), path.with_suffix(".pyx")
 
 
