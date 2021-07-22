@@ -50,12 +50,9 @@ def paths_for_cython(*patterns: str) -> Iterator[Path]:
 
     includes, excludes = includes_excludes_from_patterns(*patterns)
 
-    for path in matching_paths(
-        (i.with_suffix(".py*") for i in includes),
-        [i.with_suffix(".py*") for i in excludes],
-    ):
-
-        if path.suffix in (".py", ".pyx") and path.name not in returned:
+    extensions = cython_settings.extensions
+    for path in matching_paths(includes, excludes):
+        if path.suffix in extensions and path.name not in returned:
             yield path
             returned.add(path.name)
 
