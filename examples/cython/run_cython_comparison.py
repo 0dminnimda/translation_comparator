@@ -26,3 +26,6 @@ settings.save_as_diff = False
 cythonize_and_compare("*", "\\!run_cython_comparison.py",
                       language_level=3)
 
+
+# you can see result in the diff folder
+
