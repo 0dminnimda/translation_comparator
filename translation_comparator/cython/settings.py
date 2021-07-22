@@ -3,6 +3,7 @@
 
 from difflib import Differ
 from pathlib import Path
+from typing import Container
 
 from ..show_functions import show_via_cmd
 from ..typedefs import GEN_PATH_FUNC, PATH_FUNC, SHOW_FUNC
@@ -14,6 +15,7 @@ str_between_lines: str = "\n  " + "#"*100 + "\n  "*2
 
 out_ext: str = ".txt"
 diff_ext: str = ".diff"
+extensions: Container[str] = (".py", ".pyx")
 
 build_dir: Path = Path("build/")
 py_dir: Path = Path("py/")
