@@ -1,8 +1,6 @@
 from pathlib import Path
 
-from Cython.Build import cythonize  # cython must be installed
-from translation_comparator import (compare_cythonized, construct_pairs,
-                                    show_via_vscode, unique_path_list)
+from translation_comparator import show_via_vscode
 from translation_comparator.cython import settings
 from translation_comparator.cython.with_cython import cythonize_and_compare
 
