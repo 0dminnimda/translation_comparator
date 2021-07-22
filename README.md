@@ -6,7 +6,7 @@ It is a statically typed library that нelps to compare translated code.
 
 Will remove most of the useless difference between files so you can focus on the important difference.
 
-[Example of use](examples/run_cython_comparison.py)
+[Example of use with cython](examples/cython/run_cython_comparison.py)
 
 ## Library Installation
 
