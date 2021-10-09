@@ -8,19 +8,18 @@ from re import Match
 from typing import Iterable, List
 
 from ..path_helpers import change_same_paths_if_needed
-from ..typedefs import DIFF, DIFF_FUNC, DIFF_ITER
+from ..typedefs import DIFF_FUNC
 from . import settings
 from .annotated_html_parser import get_code_from_two_files_by_path
 
 
-def diff_to_str(diff: DIFF) -> str:
-    return settings.str_between_lines.join(["\n".join(i) for i in diff])
+def chunks_to_lines(chunks: Iterable[str]) -> List[str]:
+    return settings.str_between_lines.join(chunks).split("\n")
 
 
-def make_diff(func: DIFF_FUNC, iterable: DIFF_ITER) -> DIFF:
-    return [
-        list(func(a.split("\n"), b.split("\n")))
-        for a, b in iterable]
+def diff_of_several(func: DIFF_FUNC,
+                    a: Iterable[str], b: Iterable[str]) -> str:
+    return "\n".join(func(chunks_to_lines(a), chunks_to_lines(b)))
 
 
 def write_restored_diff(path: Path, lines: Iterable[str]) -> None:
@@ -56,8 +55,8 @@ def build_out_path(path: Path) -> Path:
 def compare_and_save_two_files_by_path(path1: Path, path2: Path) -> None:
     code1, code2 = get_code_from_two_files_by_path(path1, path2)
 
-    compare_result = make_diff(settings.differ.compare, zip(code1, code2))
-    comparison_str = equate_similar_lines(diff_to_str(compare_result))
+    compare_result = diff_of_several(settings.differ.compare, code1, code2)
+    comparison_str = equate_similar_lines(compare_result)
 
     path1, path2 = change_same_paths_if_needed(path1, path2)
     if settings.save_as_diff:
